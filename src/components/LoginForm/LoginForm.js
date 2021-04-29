@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./LoginForm.css";
-import { withRouter } from "react-router-dom";
+import { Router, Route, withRouter } from "react-router-dom";
+import authHeader from "../../service/auth-header";
 import Home from "../Home/Home";
 
 function LoginForm(props) {
+  let data = [];
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -25,18 +27,38 @@ function LoginForm(props) {
       email: state.email,
       password: state.password,
     };
+
     axios
       .post("/api/public/login", payload)
       .then(function (response) {
-        console.log(response);
+        console.log(response.data);
         if (response.status === 200) {
           setState((prevState) => ({
             ...prevState,
             successMessage: "Login successful. Redirecting to home page..",
           }));
-          //redirectToHome();
-          //props.showError(null);
-          return <Home />;
+
+          localStorage.setItem("user", JSON.stringify(response.data));
+
+          const structures = () => {
+            return axios
+              .get("/api/structures", {
+                headers: authHeader(),
+              })
+              .then(function (response) {
+                data = response;
+                console.log(data);
+                return (
+                  <Router>
+                    <Route path="/home">
+                      <Home />
+                    </Route>
+                  </Router>
+                );
+              });
+          };
+
+          structures();
         } else if (response.data.code === 204) {
           props.showError("Username and password do not match");
         } else {
@@ -46,11 +68,6 @@ function LoginForm(props) {
       .catch(function (error) {
         console.log(error);
       });
-  };
-
-  const redirectToHome = () => {
-    props.updateTitle("Home");
-    props.history.push("/home");
   };
 
   return (
