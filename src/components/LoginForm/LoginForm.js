@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./LoginForm.css";
-import { API_BASE_URL } from "../../constants/apiContants";
 import { withRouter } from "react-router-dom";
+import Home from "../Home/Home";
 
 function LoginForm(props) {
   const [state, setState] = useState({
@@ -26,15 +26,17 @@ function LoginForm(props) {
       password: state.password,
     };
     axios
-      .post(API_BASE_URL + "/api/public/login", payload)
+      .post("/api/public/login", payload)
       .then(function (response) {
-        if (response.data.code === 200) {
+        console.log(response);
+        if (response.status === 200) {
           setState((prevState) => ({
             ...prevState,
             successMessage: "Login successful. Redirecting to home page..",
           }));
-          redirectToHome();
-          props.showError(null);
+          //redirectToHome();
+          //props.showError(null);
+          return <Home />;
         } else if (response.data.code === 204) {
           props.showError("Username and password do not match");
         } else {
