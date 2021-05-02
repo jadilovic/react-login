@@ -1,19 +1,22 @@
 import "./App.css";
-import LoginForm from "./components/LoginForm/LoginForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Dashboard, PrivateRoute, Error } from "./pages";
+import LoginForm from "./components/LoginForm";
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <div className="container d-flex align-items-center flex-column">
-          <Switch>
-            <Route path="/">
-              <LoginForm />
-            </Route>
-          </Switch>
-        </div>
-      </div>
+      <Switch>
+        <PrivateRoute path="/" exact={true}>
+          <Dashboard></Dashboard>
+        </PrivateRoute>
+        <Route path="/login">
+          <LoginForm />
+        </Route>
+        <Route path="*">
+          <Error />
+        </Route>
+      </Switch>
     </Router>
   );
 }

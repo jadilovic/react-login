@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./LoginForm.css";
-import { Router, Route, withRouter } from "react-router-dom";
-import authHeader from "../../service/auth-header";
-import Home from "../Home/Home";
+import { Router, Route, withRouter, Redirect } from "react-router-dom";
+import authHeader from "../service/auth-header";
+import { Dashboard } from "../pages";
 
 function LoginForm(props) {
+  const [redirect, setRedirect] = useState(false);
   let data = [];
   const [state, setState] = useState({
     email: "",
@@ -48,13 +49,6 @@ function LoginForm(props) {
               .then(function (response) {
                 data = response;
                 console.log(data);
-                return (
-                  <Router>
-                    <Route path="/home">
-                      <Home />
-                    </Route>
-                  </Router>
-                );
               });
           };
 
@@ -65,10 +59,23 @@ function LoginForm(props) {
           props.showError("Username does not exists");
         }
       })
+      .then(() => {
+        console.log("redirect");
+        setRedirect(true);
+      })
       .catch(function (error) {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    toDashboard();
+  }, [redirect]);
+
+  function toDashboard() {
+    console.log("effect redirect");
+    return <Dashboard></Dashboard>;
+  }
 
   return (
     <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
