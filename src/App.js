@@ -1,7 +1,8 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Dashboard, PrivateRoute, Error } from "./pages";
-import LoginForm from "./components/LoginForm";
+// import LoginForm from "./components/LoginForm";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
           <Dashboard></Dashboard>
         </PrivateRoute>
         <Route path="/login">
-          <LoginForm />
+          <Login />
         </Route>
         <Route path="*">
           <Error />
