@@ -41,7 +41,7 @@ function LoginForm(props) {
           }));
 
           localStorage.setItem("user", JSON.stringify(response.data));
-          /*
+
           const structures = () => {
             return axios
               .get("/api/structures", {
@@ -53,12 +53,12 @@ function LoginForm(props) {
               });
           };
 
-          structures(); 
+          structures();
         } else if (response.data.code === 204) {
           props.showError("Username and password do not match");
         } else {
           props.showError("Username does not exists");
-        }*/
+        }
       })
       .then(() => {
         // REDIRECTING TO DASHBOARD console.log("redirect");
@@ -69,55 +69,6 @@ function LoginForm(props) {
       });
   };
 
-  return (
-    <div>
-      <form>
-        <Typography variant="h5" style={{ marginBottom: 8 }}>
-          Login
-        </Typography>
-        <TextField
-          required
-          label="Email"
-          variant="outlined"
-          id="email"
-          className="form-input"
-          value={state.email}
-          onChange={handleChange}
-          //onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextField
-          required
-          label="Password"
-          variant="outlined"
-          id="password"
-          className="form-input"
-          type="password"
-          value={state.password}
-          onChange={handleChange}
-          //onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          className="form-input"
-          size="large"
-          onClick={handleSubmitClick}
-        >
-          Login
-        </Button>
-      </form>
-      <div
-        className="alert alert-success mt-2"
-        style={{ display: state.successMessage ? "block" : "none" }}
-        role="alert"
-      >
-        {state.successMessage}
-      </div>
-    </div>
-  );
-
-  /*
   return (
     <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
       <form>
@@ -165,7 +116,6 @@ function LoginForm(props) {
       </div>
     </div>
   );
-  */
 }
 
 export default withRouter(LoginForm);
