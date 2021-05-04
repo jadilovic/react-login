@@ -1,32 +1,19 @@
 import React, { useContext } from "react";
-//import { Info, Repos, User, Search, Navbar } from "../components";
-//import loadingImage from "../images/preloader.gif";
-//import { GithubContext } from "../context/context";
-const Dashboard = () => {
-  /*
-  const { isLoading } = useContext(GithubContext);
-
-  if (isLoading) {
-    return (
-      <main>
-        <Navbar></Navbar>
-        <Search></Search>
-        <img src={loadingImage} alt="loading" className="loading-img" />
-      </main>
-    );
-  }
-*/
+import { connect } from "react-redux";
+const Dashboard = ({ data = [] }) => {
   return (
     <main>
-      <h1>Dashboard Page</h1>
-      {/* 
-    <Navbar></Navbar>
-    <Search></Search>
-     <Info></Info>
-     <User></User>
-    <Repos></Repos> */}
+      <h1>Dashboard</h1>
+
+      {data.map((item) => {
+        return <p>{item.description}</p>;
+      })}
     </main>
   );
 };
 
-export default Dashboard;
+const mapStateToProp = (state) => {
+  return { data: state.data };
+};
+
+export default connect(mapStateToProp)(Dashboard);
